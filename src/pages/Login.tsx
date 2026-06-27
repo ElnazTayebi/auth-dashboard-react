@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
+/* import { Button } from "@/components/ui/button"; */
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import InputField from "@/components/widgets/InputField";
+import FormButton from "@/components/widgets/FormButton";
 
 const loginSchema = z.object({
   username: z.string().trim().min(1, "Username is required"),
@@ -40,8 +41,8 @@ const Login = () => {
       return res.json();
     },
     onSuccess: (data) => {
+      setErrorMsg("");
       localStorage.setItem("token", data.token);
-      console.log("Login Success", data);
     },
 
     onError: (error) => {
@@ -65,30 +66,32 @@ const Login = () => {
           </div>
         )}
         <h6 className="text-lg font-semibold text-center">Sign In</h6>
-       
-          <InputField
-            label="Username"
-            name="username"
-            register={register}
-            error={errors.username}
-            placeholder="Enter username"
-            isRequired
-          />
-    
-          <InputField
-            label="Password"
-            name="password"
-            type="password"
-            register={register}
-            error={errors.password}
-            placeholder="Enter password"
-            isRequired
-            hasToggle
-          />
-        
-        <Button type="submit" className="w-full mt-4">
-          login
-        </Button>
+
+        <InputField
+          label="Username"
+          name="username"
+          register={register}
+          error={errors.username}
+          placeholder="Enter username"
+          isRequired
+        />
+
+        <InputField
+          label="Password"
+          name="password"
+          type="password"
+          register={register}
+          error={errors.password}
+          placeholder="Enter password"
+          isRequired
+          hasToggle
+        />
+        <FormButton
+          isLoading={mutation.isPending}
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? "Loggin in..." : "Login"}
+        </FormButton>
         <Link to="/register" className="text-blue-500 text-sm">
           Don't have an account? Sign up
         </Link>

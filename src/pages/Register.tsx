@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+/* import { Button } from "@/components/ui/button"; */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import * as z from "zod";
 import { useState } from "react";
 import InputField from "@/components/widgets/InputField";
+import FormButton from "@/components/widgets/FormButton";
 
 const signUpSchema = z.object({
   username: z.string().trim().min(1, "Username is required"),
@@ -29,8 +30,8 @@ const Register = () => {
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
-  const checkUserExist = async (email: string) => {
-    const res = await fetch(`https://dummyjson.com/users/search?q=${email}`);
+  const checkUserExist = async (username: string) => {
+    const res = await fetch(`https://dummyjson.com/users/search?q=${username}`);
     const data = await res.json();
     return data.users.length > 0;
   };
@@ -39,11 +40,11 @@ const Register = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: formData) => {
-      const exist = await checkUserExist(data.username);
-
+        const exist = await checkUserExist(data.username); 
+       
       if (exist) {
         throw new Error("User already exist");
-      }
+      } 
       const res = await fetch("https://dummyjson.com/users/add", {
         method: "POST",
         headers: {
@@ -52,7 +53,7 @@ const Register = () => {
         body: JSON.stringify(data),
       });
       if (!res.ok) {
-        throw new Error("Register failed");
+        throw new Error("Username or email already exist");
       }
       return res.json();
     },
@@ -62,6 +63,7 @@ const Register = () => {
         username: data.username,
         email: data.email,
       };
+      setErrorMsg("");
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
     },
@@ -93,32 +95,30 @@ const Register = () => {
             isRequired
           />
         </div>
-    
-          <InputField
-            label="Username"
-            name="username"
-            register={register}
-            error={errors.username}
-            placeholder="Enter username"
-            isRequired
-          />
-    
-        
-          <InputField
-            label="Password"
-            name="password"
-            type="password"
-            register={register}
-            error={errors.password}
-            placeholder="Enter password"
-            isRequired
-            hasToggle
-          />
-        
 
-        <Button type="submit" className="w-full mt-4">
-          Sign Up
-        </Button>
+        <InputField
+          label="Username"
+          name="username"
+          register={register}
+          error={errors.username}
+          placeholder="Enter username"
+          isRequired
+        />
+
+        <InputField
+          label="Password"
+          name="password"
+          type="password"
+          register={register}
+          error={errors.password}
+          placeholder="Enter password"
+          isRequired
+          hasToggle
+        />
+
+        <FormButton isLoading={mutation.isPending}>
+          {mutation.isPending ? "Creating account..." : "Sign Up"}
+        </FormButton>
         <Link to="/" className="text-blue-500 text-sm">
           Already have an account? Sign in
         </Link>
