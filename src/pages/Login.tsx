@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Input } from "@/ui/input";
-import { Button } from "@/ui/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
+import InputField from "@/components/widgets/InputField";
 
 const loginSchema = z.object({
   username: z.string().trim().min(1, "Username is required"),
@@ -21,8 +23,7 @@ const Login = () => {
   } = useForm<FormData>({
     resolver: zodResolver(loginSchema),
   });
-
-  const queryClient = useQueryClient();
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
@@ -34,13 +35,17 @@ const Login = () => {
         body: JSON.stringify(data),
       });
       if (!res.ok) {
-        throw new Error("Login failed");
+        throw new Error("Invalid username or password");
       }
       return res.json();
     },
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      console.log("Login Success", data);
+    },
+
+    onError: (error) => {
+      setErrorMsg(error.message);
     },
   });
 
@@ -54,35 +59,39 @@ const Login = () => {
       className="flex flex-col items-center justify-center min-h-screen bg-gray-100"
     >
       <div className="w-full max-w-sm bg-white p-6 rounded space-y-4">
+        {errorMsg && (
+          <div className="bg-red-100 text-red-600 p-2 rounded mb-3 text-sm">
+            {errorMsg}
+          </div>
+        )}
         <h6 className="text-lg font-semibold text-center">Sign In</h6>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Username</label>
-          <Input
-            type="text"
+       
+          <InputField
+            label="Username"
+            name="username"
+            register={register}
+            error={errors.username}
             placeholder="Enter username"
-            {...register("username")}
-            className={errors.username && "border-red-500"}
+            isRequired
           />
-          {errors.username && (
-            <p className="text-red-500 text-sm">{errors.username.message}</p>
-          )}
-        </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Password</label>
-          <Input
+    
+          <InputField
+            label="Password"
+            name="password"
             type="password"
+            register={register}
+            error={errors.password}
             placeholder="Enter password"
-            {...register("password")}
-            className={errors.password && "border-red-500"}
+            isRequired
+            hasToggle
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
-          )}
-        </div>
-        <Button type="submit" className="w-full">
+        
+        <Button type="submit" className="w-full mt-4">
           login
         </Button>
-        <Link to="/register">You dont have an account please klick hier</Link>
+        <Link to="/register" className="text-blue-500 text-sm">
+          Don't have an account? Sign up
+        </Link>
       </div>
     </form>
   );
