@@ -1,6 +1,6 @@
 type AuthCardProps = {
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const AuthCard = ({ title, children }: AuthCardProps) => {

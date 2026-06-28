@@ -1,4 +1,6 @@
+
 import type { LoginFormData, SignUpFormData } from "@/schemas/auth.shema";
+import type { UsersResponse } from "@/types/user";
 export async function login(data: LoginFormData) {
   const res = await fetch("https://dummyjson.com/auth/login", {
     method: "POST",
@@ -26,3 +28,10 @@ export const checkUserExist = async (username: string) => {
   const data = await res.json();
   return data.users.length > 0;
 };
+
+export async function getUsers():Promise<UsersResponse> {
+  const res = await fetch("https://dummyjson.com/users");
+  if (!res.ok) throw new Error("Failed to fetch users");
+
+  return res.json();
+}
