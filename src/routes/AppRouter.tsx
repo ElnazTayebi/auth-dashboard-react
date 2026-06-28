@@ -1,5 +1,5 @@
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
+import Login from "@/pages/LoginPage";
+import Register from "@/pages/RegisterPage";
 import { Route, Routes } from "react-router-dom";
 function AppRouter() {
   return (
