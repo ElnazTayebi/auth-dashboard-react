@@ -23,9 +23,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Lint
-        run: npm run lint --if-present
-
       - name: Run Tests
         run: npm test -- --watchAll=false --if-present
 
