@@ -25,4 +25,4 @@ jobs:
 
       - name: Build Project
   
-        run: npm run build -- --tsc.ignoreDeprecations=6.0 || npx tsc -b --ignoreDeprecations 6.0 && npx vite build
+        run: npm run build

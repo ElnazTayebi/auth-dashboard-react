@@ -26,13 +26,14 @@ const LoginForm = () => {
         localStorage.setItem("token", res.token);
         navigate("/dashboard");
       },
+
     });
   });
 
   return (
     <form onSubmit={onSubmit}>
-      <AuthCard title="Sin in">
-        {errorMsg && (
+      <AuthCard title="Sign in">
+        {loginMutation.isError && (
           <div className="bg-red-100 text-red-600 p-2 rounded-lg mb-3 text-sm">
             {errorMsg}
           </div>
@@ -58,7 +59,7 @@ const LoginForm = () => {
           hasToggle
         />
         <FormButton isLoading={loginMutation.isPending}>
-          {loginMutation.isPending ? "Loggin in..." : "Login"}
+          {loginMutation.isPending ? "Signing in..." : "Sign in"}
         </FormButton>
         <Link to="/register" className="text-blue-500 text-sm">
           Don't have an account? Sign up

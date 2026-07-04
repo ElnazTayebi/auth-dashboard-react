@@ -1,8 +1,4 @@
-
-
 const DashboardPage = () => {
-  return <>
- {/*  <DashboardLayout /> */}
-  </>;
+  return <>{/*  <DashboardLayout /> */}</>;
 };
 export default DashboardPage;
