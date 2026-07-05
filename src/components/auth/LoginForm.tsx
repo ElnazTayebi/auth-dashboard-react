@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "@/hooks/auth/useLogin";
-import { loginSchema, type LoginFormData } from "@/schemas/auth.shema";
+import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
 
 import InputField from "@/components/widgets/InputField";
 import FormButton from "@/components/widgets/FormButton";

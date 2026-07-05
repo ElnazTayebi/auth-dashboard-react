@@ -1,5 +1,5 @@
 
-import type { LoginFormData, SignUpFormData } from "@/schemas/auth.shema";
+import type { LoginFormData, SignUpFormData } from "@/schemas/auth.schema";
 import type { UsersResponse } from "@/types/user";
 export async function login(data: LoginFormData) {
   const res = await fetch("https://dummyjson.com/auth/login", {

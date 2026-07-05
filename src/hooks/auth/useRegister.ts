@@ -1,4 +1,4 @@
-import type { SignUpFormData } from "@/schemas/auth.shema";
+import type { SignUpFormData } from "@/schemas/auth.schema";
 import { checkUserExist, registerUser } from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
