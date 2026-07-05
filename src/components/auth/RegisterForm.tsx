@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-import { signUpSchema, type SignUpFormData } from "@/schemas/auth.shema";
+import { signUpSchema, type SignUpFormData } from "@/schemas/auth.schema";
 
 import InputField from "@/components/widgets/InputField";
 import FormButton from "@/components/widgets/FormButton";
@@ -28,22 +28,20 @@ const RegisterForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <AuthCard title="Sign Up">
-        {errorMsg && (
+        {registerMutation.isError && (
           <div className="bg-red-100 text-red-600 p-2 rounded-lg mb-3 text-sm">
             {errorMsg}
           </div>
         )}
 
-        <div className="space-y-1">
-          <InputField
-            label="Email"
-            name="email"
-            register={register}
-            error={errors.email}
-            placeholder="email@email.com"
-            isRequired
-          />
-        </div>
+        <InputField
+          label="Email"
+          name="email"
+          register={register}
+          error={errors.email}
+          placeholder="email@email.com"
+          isRequired
+        />
 
         <InputField
           label="Username"
