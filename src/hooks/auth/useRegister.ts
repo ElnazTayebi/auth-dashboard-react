@@ -1,7 +1,7 @@
 import type { SignUpFormData } from "@/schemas/auth.schema";
 import { checkUserExist, registerUser } from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 
 
 export function useRegister() {
@@ -17,7 +17,7 @@ export function useRegister() {
         },
          onSuccess: (res) => {
         localStorage.setItem("user", JSON.stringify(res));
-        navigate("/");
+        navigate({to:"/"});
          },
     })
 }

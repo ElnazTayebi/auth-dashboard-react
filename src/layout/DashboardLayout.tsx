@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "@tanstack/react-router";
 
 const DashboardLayout = () => {
   return (
@@ -8,10 +8,10 @@ const DashboardLayout = () => {
         <h2 className="text-lg font-bold mb-6">Dashboard</h2>
 
         <nav className="flex flex-col gap-3">
-          <a href="/dashboard">Dashboard</a>
-          <a href="/dashboard/users">Users</a>
-          <a href="/dashboard/posts">Posts</a>
-          <a href="/dashboard/settings">Settings</a>
+          <Link to="/">Dashboard</Link>
+          <Link to="/users">Users</Link>
+          <Link to="/posts">Posts</Link>
+          <Link to="/settings">Settings</Link>
         </nav>
       </aside>
 

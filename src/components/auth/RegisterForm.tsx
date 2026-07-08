@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 
 import { signUpSchema, type SignUpFormData } from "@/schemas/auth.schema";
 
@@ -102,7 +102,7 @@ const RegisterForm = () => {
         >
           {registerMutation.isPending ? "Creating account..." : "Sign Up"}
         </FormButton>
-        <Link to="/" className="text-blue-500 text-sm">
+        <Link to="/login" className="text-blue-500 text-sm">
           Already have an account? Sign in
         </Link>
       </AuthCard>

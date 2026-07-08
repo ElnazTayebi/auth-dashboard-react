@@ -1,10 +1,10 @@
-import AppRouter from "./routes/AppRouter";
+
 
 function App() {
   return (
-    <>
-      <AppRouter />
-    </>
+   <div className="hidden">
+     TanStack Router
+    </div>
   );
 }
 

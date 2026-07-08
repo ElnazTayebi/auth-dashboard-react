@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+#  Enterprise Admin Dashboard (Work in Progress)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![CI/CD Workflow](https://img.shields.io/badge/CI%2FCD-Passing-success?style=flat-for-grid&logo=githubactions&logoColor=white)](https://github.com/Elnaz_Tayebi)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![TanStack](https://img.shields.io/badge/TanStack-Router%20%26%20Query-ff4154)](https://tanstack.com/)
 
-Currently, two official plugins are available:
+A modern, high-performance enterprise admin panel architecture built to demonstrate scalable frontend patterns, seamless state management, and type-safe routing. This project bridges the gap between clean software engineering practices and pixel-perfect UX/UI integration.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+ **Live Demo:** [Deploy your Vercel/Netlify link here]
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+##  Key Features & Technical Highlights
 
-## Expanding the ESLint configuration
+- ** Advanced Authentication Flow:** Robust Login & SignUp forms backed by secure token handling and persistent layout architectures.
+- ** 100% Type-Safe Routing:** Leverages **TanStack Router** (`createFileRoute`, layout nesting via `_dashboard`, and robust route tree configurations).
+- ** Smart Data Fetching & Caching:** Utilizes **TanStack Query** for asynchronous server state synchronization, cache invalidation, and seamless REST API communication (integrated with DummyJSON API).
+- ** Dynamic Username Validation:** Implements an asynchronous availability check triggered on input `onBlur`, reducing unnecessary API overhead.
+- ** Bulletproof Form Handling:** Integrated with **React Hook Form** and strict schema validation powered by **Zod** (`zodResolver`).
+- ** Modular Architecture:** Clean, highly reusable UI atom components (Custom Inputs with visibility toggles, Loading States, and accessible Table elements) styled beautifully with **Tailwind CSS**.
+- ** CI/CD Automation:** Fully equipped with **GitHub Actions** for automated build checks, linting, and type verification on every push.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+##  Tech Stack & Ecosystem
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Layer | Technologies Used |
+| :--- | :--- |
+| **Core Framework** | React (Vite) + TypeScript (Strict Mode) |
+| **Routing** | TanStack Router (File-based routing) |
+| **State & Fetching** | TanStack Query (React Query) |
+| **Form Validation** | React Hook Form + Zod Schema Validation |
+| **Styling & UI** | Tailwind CSS + Radix/Shadcn-based Design System Patterns |
+| **Automation** | GitHub Actions (CI/CD Pipeline) |
+| **API Provider** | DummyJSON (Auth, Users Management Services) |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+##  Demo Access Credentials
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To test the authenticated dashboard layout directly, use the following sandbox account from DummyJSON:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Username:** `emilys`
+- **Password:** `emilyspass`
+
+---
+
+##  Getting Started
+
+### 1. Clone & Install
+```bash
+git clone [https://github.com/Elnaz_Tayebi/your-repo-name.git](https://github.com/Elnaz_Tayebi/your-repo-name.git)
+cd your-repo-name
+npm install
+
+npm run dev 
+
+npm run build
+
+Architecture Overview
+The repository follows a strict, domain-driven folder layout designed for large-scale production applications:
+
+src/components/auth/ - Specialized authorization modules (LoginForm, RegisterForm).
+
+src/components/widgets/ - Highly reusable atomic interface elements (InputField, FormButton).
+
+src/routes/ - File-based routing tree governed by TanStack Router (e.g., __root.tsx, _dashboard.tsx).
+
+src/schemas/ - Unified schemas for Zod data validation.
+
+src/services/ - Isolated infrastructure layers dealing with HTTP/REST requests.
+
+CI/CD Pipeline Details
+Every single commit pushed to the repository automatically triggers a dedicated GitHub Actions workflow to guarantee architectural health:
+
+Dependency Installation: Validates clean lockfiles.
+
+Linting & Formatting: Checks styling rules via ESLint.
+
+Static Type Checking: Runs compiler validations (tsc --noEmit) to prevent runtime type failures.

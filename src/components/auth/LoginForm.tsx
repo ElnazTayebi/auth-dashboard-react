@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
 
@@ -24,7 +24,7 @@ const LoginForm = () => {
     loginMutation.mutate(data, {
       onSuccess: (res) => {
         localStorage.setItem("token", res.token);
-        navigate("/dashboard");
+        navigate({ to: "/" });
       },
 
     });
