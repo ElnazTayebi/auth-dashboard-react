@@ -23,8 +23,10 @@ const LoginForm = () => {
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: (res) => {
-       console.log("Response from server:", res);
+  
         localStorage.setItem("token", res.accessToken);
+        localStorage.setItem("userImage",res.image)
+        localStorage.setItem("userName", `${res.firstName} ${res.lastName}`);
         navigate({ to: "/" });
       },
 
