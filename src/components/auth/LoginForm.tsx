@@ -61,8 +61,8 @@ const LoginForm = () => {
           isRequired
           hasToggle
         />
-        <FormButton isLoading={loginMutation.isPending}>
-          {loginMutation.isPending ? "Signing in..." : "Sign in"}
+        <FormButton isLoading={loginMutation.isPending} loadingText="Signing in...">
+          Sign in
         </FormButton>
         <Link to="/register" className="text-blue-500 text-sm">
           Don't have an account? Sign up
