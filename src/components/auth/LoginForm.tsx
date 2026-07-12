@@ -7,6 +7,7 @@ import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
 import InputField from "@/components/widgets/InputField";
 import FormButton from "@/components/widgets/FormButton";
 import AuthCard from "../widgets/AuthCard";
+import Squares from "../animations/Squares";
 
 const LoginForm = () => {
   const {
@@ -23,52 +24,74 @@ const LoginForm = () => {
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: (res) => {
-  
         localStorage.setItem("token", res.accessToken);
-        localStorage.setItem("userImage",res.image)
+        localStorage.setItem("userImage", res.image);
         localStorage.setItem("userName", `${res.firstName} ${res.lastName}`);
         navigate({ to: "/" });
       },
-
     });
   });
 
   return (
-    <form onSubmit={onSubmit}>
-      <AuthCard title="Sign in">
-        {loginMutation.isError && (
-          <div className="bg-red-100 text-red-600 p-2 rounded-lg mb-3 text-sm">
-            {errorMsg}
-          </div>
-        )}
+    <div className="w-full h-screen grid grid-cols-1 md:grid-cols-2 bg-background">
+      <div className="flex items-center justify-center p-6 sm:p-12">
+        <form onSubmit={onSubmit} className="w-full max-w-md">
+          <AuthCard title="Sign in">
+            {loginMutation.isError && (
+              <div className="bg-red-100 text-red-600 p-2 rounded-lg mb-3 text-sm">
+                {errorMsg}
+              </div>
+            )}
 
-        <InputField
-          label="Username"
-          name="username"
-          register={register}
-          error={errors.username}
-          placeholder="Enter username"
-          isRequired
-        />
+            <InputField
+              label="Username"
+              name="username"
+              register={register}
+              error={errors.username}
+              placeholder="Enter username"
+              isRequired
+            />
 
-        <InputField
-          label="Password"
-          name="password"
-          type="password"
-          register={register}
-          error={errors.password}
-          placeholder="Enter password"
-          isRequired
-          hasToggle
-        />
-        <FormButton isLoading={loginMutation.isPending} loadingText="Signing in...">
-          Sign in
-        </FormButton>
-        <Link to="/register" className="text-blue-500 text-sm">
-          Don't have an account? Sign up
-        </Link>
-      </AuthCard>
-    </form>
+            <InputField
+              label="Password"
+              name="password"
+              type="password"
+              register={register}
+              error={errors.password}
+              placeholder="Enter password"
+              isRequired
+              hasToggle
+            />
+
+            <FormButton
+              isLoading={loginMutation.isPending}
+              loadingText="Signing in..."
+            >
+              Sign in
+            </FormButton>
+
+            <Link
+              to="/register"
+              className="text-blue-500 text-sm mt-2 block text-center"
+            >
+              Don't have an account? Sign up
+            </Link>
+          </AuthCard>
+        </form>
+      </div>
+
+      <div className="hidden md:block relative w-full h-full bg-slate-950 overflow-hidden border-l border-border">
+        <div className="absolute inset-0 w-full h-full">
+          <Squares
+            direction="diagonal"
+            speed={0.3}
+            squareSize={45}
+            borderColor="rgba(255, 255, 255, 0.05)"
+            hoverColor="rgba(59, 130, 246, 0.2)"
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 export default LoginForm;
