@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useUsers } from "@/hooks/useUser";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import {
   Table,
@@ -15,11 +16,8 @@ import FormButton from "@/components/widgets/FormButton";
 const UserPage = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
-  
-  
   const { data, isLoading, error, isFetching } = useUsers(page);
 
-  
   if (isLoading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">Error loading users</p>;
 
@@ -28,10 +26,9 @@ const UserPage = () => {
 
   return (
     <div className="w-full p-4 flex justify-center">
-
-      <div className={`w-full max-w-6xl border border-border rounded-lg bg-card overflow-hidden flex flex-col transition-opacity duration-200 ${isFetching ? "opacity-75" : "opacity-100"}`}>
-        
-
+      <div
+        className={`w-full max-w-6xl border border-border rounded-lg bg-card overflow-hidden flex flex-col transition-opacity duration-200 ${isFetching ? "opacity-75" : "opacity-100"}`}
+      >
         <div className="w-full overflow-x-auto">
           <Table className="w-full min-w-150 table-fixed min-h-120">
             <TableHeader>
@@ -64,12 +61,16 @@ const UserPage = () => {
           </Table>
         </div>
 
-        
         <div className="flex w-full items-center justify-between p-4 border-t border-border bg-card">
           <div className="text-sm text-muted-foreground flex items-center gap-2">
-            <span>Page <strong>{page}</strong> of <strong>{totalPages}</strong></span>
-         
-            {isFetching && <span className="text-xs text-blue-500 animate-pulse">(Updating...)</span>}
+            <span>
+              Page <strong>{page}</strong> of <strong>{totalPages}</strong>
+            </span>
+            {isFetching && (
+              <span className="text-xs text-blue-500 animate-pulse">
+                (Updating...)
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -78,9 +79,11 @@ const UserPage = () => {
               size="sm"
               fullWidth={false}
               onClick={() => setPage((old) => Math.max(old - 1, 1))}
-              disabled={page === 1 || isFetching} 
+              disabled={page === 1 || isFetching}
+              className="flex items-center gap-1.5"
             >
-              Previous
+              <ChevronLeft className="h-4 w-4" />
+             <span>Previous</span>
             </FormButton>
 
             <FormButton
@@ -91,12 +94,13 @@ const UserPage = () => {
                 if (hasNextPage) setPage((old) => old + 1);
               }}
               disabled={!hasNextPage || totalPages <= 1 || isFetching}
+              className="flex items-center gap-1.5"
             >
-              Next
+             <span>Next</span>
+              <ChevronRight className="h-4 w-4" />
             </FormButton>
           </div>
         </div>
-
       </div>
     </div>
   );

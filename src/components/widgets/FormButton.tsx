@@ -23,16 +23,17 @@ export default function FormButton({
   const buttonType = type ?? (props.onClick ? "button" : "submit");
   return (
     <Button
+      variant={variant}
+      size={size}
       type={buttonType}
       disabled={isLoading || disabled}
       className={cn(
-       
-        "rounded-lg font-medium transition-colors", 
-        
-        fullWidth ? "w-full" : "w-auto", 
-      
-        variant === "default" && "bg-blue-600 text-white hover:bg-blue-700", 
-        className
+        "rounded-lg font-medium transition-colors",
+        "inline-flex items-center justify-center gap-1.5",
+        fullWidth ? "w-full" : "w-auto",
+
+        variant === "default" && !className?.includes("bg-") && "bg-blue-600 text-white hover:bg-blue-700",
+        className,
       )}
       {...props}
     >

@@ -1,4 +1,6 @@
+import FormButton from "#/components/widgets/FormButton";
 import { Outlet, Link, useNavigate } from "@tanstack/react-router";
+import { LogOut } from "lucide-react";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -50,12 +52,14 @@ const DashboardLayout = () => {
           </nav>
         </div>
 
-        <button
+        <FormButton
+          variant="ghost"
           onClick={handleLogout}
-          className="w-full text-left p-2 rounded bg-red-900/40 text-red-400 hover:bg-red-600 hover:text-white transition-all text-sm font-medium"
+          className="justify-start p-2 text-red-400 bg-red-900/20 hover:bg-red-600 hover:text-white transition-all text-sm font-medium gap-2"
         >
-          🚪 Sign Out
-        </button>
+          <LogOut className="h-4 w-4" />
+          <span>Sign Out</span>
+        </FormButton>
       </aside>
 
       <div className="flex-1 flex flex-col">
