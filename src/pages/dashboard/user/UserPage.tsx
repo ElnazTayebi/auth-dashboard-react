@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { useUsers } from "@/hooks/useUser";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
+import { getRouteApi } from "@tanstack/react-router";
 import {
   Table,
   TableBody,
@@ -13,8 +12,12 @@ import {
 
 import FormButton from "@/components/widgets/FormButton";
 
+const routeApi = getRouteApi("/_dashboard/users");
+
 const UserPage = () => {
-  const [page, setPage] = useState(1);
+ const {page =1} = routeApi.useSearch();
+ const navigate = routeApi.useNavigate();
+
   const limit = 10;
   const { data, isLoading, error, isFetching } = useUsers(page);
 
@@ -23,6 +26,12 @@ const UserPage = () => {
 
   const totalPages = Math.ceil((data?.total || 0) / limit);
   const hasNextPage = page < totalPages;
+ const handlePageChange = (newPage: number) => {
+    navigate({
+      
+      search: (prev) => ({ ...prev, page: newPage }),
+    });
+  };
 
   return (
     <div className="w-full p-4 flex justify-center">
@@ -78,7 +87,7 @@ const UserPage = () => {
               variant="outline"
               size="sm"
               fullWidth={false}
-              onClick={() => setPage((old) => Math.max(old - 1, 1))}
+              onClick={() => handlePageChange( Math.max(page - 1, 1))}
               disabled={page === 1 || isFetching}
               className="flex items-center gap-1.5"
             >
@@ -91,7 +100,7 @@ const UserPage = () => {
               size="sm"
               fullWidth={false}
               onClick={() => {
-                if (hasNextPage) setPage((old) => old + 1);
+                if (hasNextPage) handlePageChange(page + 1);
               }}
               disabled={!hasNextPage || totalPages <= 1 || isFetching}
               className="flex items-center gap-1.5"

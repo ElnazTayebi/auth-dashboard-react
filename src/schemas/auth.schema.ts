@@ -23,3 +23,16 @@ export const signUpSchema = credentialsSchema.extend({
 });
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;
+
+/**
+ * Register schema
+ */
+export const usersSearchSchema = z.object({
+  page: z.any().transform((value) => {
+    const parsed = parseInt(value, 10);
+    return isNaN(parsed) || parsed < 1 ? 1 : parsed;
+  })
+ 
+});
+
+export type UsersSearchParams = z.infer<typeof usersSearchSchema>;
