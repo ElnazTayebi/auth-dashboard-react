@@ -1,6 +1,7 @@
 {
-  "version": 2,
-  "public": true,
+  "framework": "vite",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/(.*)",
