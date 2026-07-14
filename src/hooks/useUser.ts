@@ -1,21 +1,19 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import type { UsersResponse } from "@/types/user";
+import { apiClient } from "#/api/apiClient";
 
 const fetchUsers = async (page: number): Promise<UsersResponse> => {
   const limit = 10;
   const skip = (page - 1) * limit;
-  
-  const response = await fetch(
-    `https://dummyjson.com/users?limit=${limit}&skip=${skip}`
-  );
-  
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  
-  return response.json();
-};
 
+  const response = await apiClient.get<UsersResponse>("/users", {
+    params: {
+      limit,
+      skip,
+    },
+  });
+  return response.data;
+};
 
 export const useUsers = (page: number) => {
   return useQuery<UsersResponse>({
