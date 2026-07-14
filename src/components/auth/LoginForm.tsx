@@ -10,6 +10,8 @@ import AuthCard from "../widgets/AuthCard";
 import Squares from "../animations/Squares";
 
 const LoginForm = () => {
+    const navigate = useNavigate();
+    const {mutate: loginUser, isPending, error, isError} = useLogin();
   const {
     handleSubmit,
     register,
@@ -20,13 +22,10 @@ const LoginForm = () => {
 
   const loginMutation = useLogin();
   const errorMsg = loginMutation.error?.message;
-  const navigate = useNavigate();
+
   const onSubmit = handleSubmit((data) => {
-    loginMutation.mutate(data, {
-      onSuccess: (res) => {
-        localStorage.setItem("token", res.accessToken);
-        localStorage.setItem("userImage", res.image);
-        localStorage.setItem("userName", `${res.firstName} ${res.lastName}`);
+   loginUser(data, {
+      onSuccess: () => {
         navigate({ to: "/" });
       },
     });
@@ -37,9 +36,9 @@ const LoginForm = () => {
       <div className="flex items-center justify-center p-6 sm:p-12">
         <form onSubmit={onSubmit} className="w-full max-w-md">
           <AuthCard title="Sign in">
-            {loginMutation.isError && (
+            {isError && (
               <div className="bg-red-100 text-red-600 p-2 rounded-lg mb-3 text-sm">
-                {errorMsg}
+                {error?.message || "Invalid credentials. Please try again."}
               </div>
             )}
 
@@ -64,7 +63,7 @@ const LoginForm = () => {
             />
 
             <FormButton
-              isLoading={loginMutation.isPending}
+              isLoading={isPending}
               loadingText="Signing in..."
             >
               Sign in

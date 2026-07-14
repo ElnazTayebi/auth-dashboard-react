@@ -1,37 +1,23 @@
-
+import { apiClient } from "@/api/apiClient";
 import type { LoginFormData, SignUpFormData } from "@/schemas/auth.schema";
-import type { UsersResponse } from "@/types/user";
-export async function login(data: LoginFormData) {
-  const res = await fetch("https://dummyjson.com/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Invalid credentials");
+import type { UsersResponse, User, LoginResponse } from "@/types/user";
 
-  return res.json();
+export async function login(data: LoginFormData): Promise<LoginResponse> {
+  const res = await apiClient.post<LoginResponse>("/auth/login", data);
+  return res.data;
 }
 
-export async function registerUser(data: SignUpFormData) {
-  const res = await fetch("https://dummyjson.com/users/add", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Register failed");
-
-  return res.json();
+export async function registerUser(data: SignUpFormData): Promise<User> {
+  const res = await apiClient.post<User>("/users/add", data);
+  return res.data;
 }
 
-export const checkUserExist = async (username: string) => {
-  const res = await fetch(`https://dummyjson.com/users/search?q=${username}`);
-  const data = await res.json();
-  return data.users.length > 0;
+export const checkUserExist = async (username: string): Promise<boolean> => {
+  const res = await apiClient.get(`/users/search?q=${username}`);
+  return res.data.users.length > 0;
 };
 
-export async function getUsers():Promise<UsersResponse> {
-  const res = await fetch("https://dummyjson.com/users");
-  if (!res.ok) throw new Error("Failed to fetch users");
-
-  return res.json();
+export async function getUsers(): Promise<UsersResponse> {
+  const res = await apiClient.get<UsersResponse>("/users");
+  return res.data;
 }
