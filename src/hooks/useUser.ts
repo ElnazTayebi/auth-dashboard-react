@@ -16,9 +16,12 @@ const fetchUsers = async (page: number): Promise<UsersResponse> => {
 };
 
 export const useUsers = (page: number) => {
-  return useQuery<UsersResponse>({
+  return useQuery<UsersResponse, Error>({
     queryKey: ["users", page],
     queryFn: () => fetchUsers(page),
     placeholderData: keepPreviousData,
+    meta: {
+      errorMessage:"Failed to fetch users list."
+    }
   });
 };

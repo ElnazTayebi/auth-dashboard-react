@@ -20,9 +20,6 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-/*   const loginMutation = useLogin(); */
-  /* const errorMsg = loginMutation.error?.message; */
-
   const onSubmit = handleSubmit((data) => {
    loginUser(data, {
       onSuccess: () => {
@@ -38,7 +35,7 @@ const LoginForm = () => {
           <AuthCard title="Sign in">
             {isError && (
               <div className="bg-red-100 text-red-600 p-2 rounded-lg mb-3 text-sm">
-                {error?.message || "Invalid credentials. Please try again."}
+                {error.message}
               </div>
             )}
 

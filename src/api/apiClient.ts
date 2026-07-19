@@ -20,9 +20,12 @@ apiClient.interceptors.request.use(
         (response) => response,
         (error) => {
             if (error.response?.status === 401) {
-                localStorage.clear( );
-                window.location.href = "/login";
+                localStorage.clear();
+               /*  window.location.href = "/login"; */
+                 return Promise.reject(error);
             }
-            return Promise.reject(error);
+            const serverMessage = error.response?.data?.message || "Something went wrong. Please try again.";
+            return Promise.reject(new Error(serverMessage));
         }
+       
     );

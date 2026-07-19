@@ -1,95 +1,72 @@
-import FormButton from "#/components/widgets/FormButton";
-import { Outlet, Link, useNavigate } from "@tanstack/react-router";
-import { LogOut } from "lucide-react";
+import { Outlet, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import { SidebarProvider } from "#/components/ui/sidebar";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+
+type UserData = {
+  name: string;
+  image: string;
+};
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const userName = localStorage.getItem("userName") || "User";
-  const userImage = localStorage.getItem("userImage") || "";
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userImage");
-
-    navigate({ to: "/login" });
+  const getUserData = (): UserData => {
+    const rowUser = localStorage.getItem("user");
+    if (rowUser) {
+      try {
+        const parsedUser = JSON.parse(rowUser);
+        return {
+          name: parsedUser.username || "User",
+          image: parsedUser.image || "",
+        };
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+    return {
+      name: localStorage.getItem("userName") || "User",
+      image: localStorage.getItem("userImage") || "",
+    };
   };
 
+  const { name: userName, image: userImage } = getUserData();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate({ to: "/login" });
+  };
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
   return (
-    <div className="flex h-screen">
-    
-      <aside className="w-64 bg-gray-900 text-white p-4 flex flex-col justify-between">
-        <div>
-          <h2 className="text-xl font-bold mb-6 tracking-wide text-blue-400">
-            Admin Panel
-          </h2>
-          <nav className="flex flex-col gap-2">
-            <Link
-              to="/"
-              className="p-2 rounded hover:bg-gray-800 transition-colors [&.active]:bg-blue-600 [&.active]:font-semibold"
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/users"
-              className="p-2 rounded hover:bg-gray-800 transition-colors [&.active]:bg-blue-600 [&.active]:font-semibold"
-            >
-              Users
-            </Link>
-            <Link
-              to="/posts"
-              className="p-2 rounded hover:bg-gray-800 transition-colors [&.active]:bg-blue-600 [&.active]:font-semibold"
-            >
-              Posts
-            </Link>
-            <Link
-              to="/settings"
-              className="p-2 rounded hover:bg-gray-800 transition-colors [&.active]:bg-blue-600 [&.active]:font-semibold"
-            >
-              Settings
-            </Link>
-          </nav>
+    <TooltipProvider delayDuration={0}>
+    <SidebarProvider>
+      <div className="flex h-screen w-screen overflow-hidden bg-gray-50">
+        <Sidebar handleLogout={handleLogout} />
+        {isSidebarOpen && (
+          <div
+            onClick={closeSidebar}
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          />
+        )}
+        <div className="flex-1 flex flex-col">
+          <Header
+            onOpenSidebar={() => setIsSidebarOpen(true)}
+            userName={userName}
+            userImage={userImage}
+          />
+          <main className="flex-1 p-4 md:p-6 bg-gray-50 overflow-y-auto">
+            <Outlet />
+          </main>
         </div>
-
-        <FormButton
-          variant="ghost"
-          onClick={handleLogout}
-          className="justify-start p-2 text-red-400 bg-red-900/20 hover:bg-red-600 hover:text-white transition-all text-sm font-medium gap-2"
-        >
-          <LogOut className="h-4 w-4" />
-          <span>Sign Out</span>
-        </FormButton>
-      </aside>
-
-      <div className="flex-1 flex flex-col">
-        <header className="h-14 bg-white shadow flex items-center justify-between px-6">
-          <h1 className="font-semibold text-gray-700">Welcome back!</h1>
-
-          <div className="flex items-center gap-3 border-l pl-4">
-            <div className="text-right">
-              <p className="text-sm font-semibold text-gray-800">{userName}</p>
-              <p className="text-xs text-gray-400">Administrator</p>
-            </div>
-            {userImage ? (
-              <img
-                src={userImage}
-                alt={userName}
-                className="w-9 h-9 rounded-full bg-gray-200 border border-gray-300 object-cover"
-              />
-            ) : (
-              <div className="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm">
-                {userName.charAt(0)}
-              </div>
-            )}
-          </div>
-        </header>
-
-        <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
-          <Outlet />
-        </main>
       </div>
-    </div>
+    </SidebarProvider>
+    </TooltipProvider>
   );
 };
 

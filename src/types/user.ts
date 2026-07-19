@@ -13,12 +13,7 @@ export type UsersResponse = {
   limit: number;
 };
 
-export interface LoginResponse {
-  id: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
+export type LoginResponse = User & {
   gender: string;
   image: string;
   accessToken: string;
